@@ -13,6 +13,7 @@ int main(void)
     int len2;
     unsigned int ui;
     void *addr;
+    char *y;
 
     len = _printf("Let's try to printf a simple sentence.\n");
     len2 = printf("Let's try to printf a simple sentence.\n");
@@ -42,6 +43,6 @@ int main(void)
     printf("Unknown:[%r]\n");
     len =  _printf("%   %% %  k \n", len);
     len = printf("%   %% %  g \n", len);
-    printf("%d", len);
+    _printf("%s", y);
     return (0);
 }

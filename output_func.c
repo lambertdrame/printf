@@ -47,7 +47,10 @@ int format_selector(va_list args, char *buffer
 	if (format == 's')
 		print_str(args, buffer, buff_ind, count);
 	else if (format == 'c')
-		print_char(args, buffer, buff_ind, count);
+	{
+		if (!print_char(args, buffer, buff_ind, count))
+			return (0);
+	}
 	else if (format == '%')
 	{
 		buffer[(*buff_ind)++] = format;
@@ -108,16 +111,19 @@ void print_str(va_list args, char *buffer, int *buff_ind, int *count)
  * @buff_ind: index of the current position in the buffer
  * @count: pointer to the main printf charcater count
  *
- * Return: Nothing
+ * Return: 0 if no character else 1
  */
 
-void print_char(va_list args, char *buffer, int *buff_ind, int *count)
+int print_char(va_list args, char *buffer, int *buff_ind, int *count)
 {
 	int c;
 
 	c = va_arg(args, int);
+	if (!c)
+		return (0);
 	buffer[(*buff_ind)++] = (char) c;
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
 	(*count)++;
+	return (1);
 }
