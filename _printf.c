@@ -22,6 +22,8 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
+			while (format[i] == ' ')
+				i++;
 			if (format[i] == 's')
 				count += print_str(args);
 			else if (format[i] == 'c')

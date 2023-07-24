@@ -53,3 +53,39 @@ void print_char(va_list args)
 
 	write(1, &c, 1);
 }
+
+/**
+ * print_int - prints int
+ * @args: The int gotten from the arguments
+ *
+ * Return: Length of int
+ */
+int print_int(va_list args)
+{
+	int num, num2, len = 1, rem, digit, count = 0;
+
+	num = va_arg(args, int);
+
+	num2 = num;
+	rem = num;
+
+	while (num2)
+	{
+		num2 /= 10;
+		len *= 10;
+		count++;
+	}
+
+	len /= 10;
+
+	while (len)
+	{
+		digit = rem / len;
+		rem = rem % len;
+		digit = digit + '0';
+		write(1, &digit, 1);
+		len /= 10;
+	}
+
+	return (count);
+}
