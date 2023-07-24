@@ -34,8 +34,6 @@ int _printf(const char *format, ...)
 				write(1, format + i, 1);
 				count++;
 			}
-			else if (format[i] == 'd' || format[i] == 'i')
-				count += print_int(args);
 		}
 		else
 		{
