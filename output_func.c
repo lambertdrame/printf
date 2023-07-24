@@ -86,6 +86,8 @@ void print_str(va_list args, char *buffer, int *buff_ind, int *count)
 	int len, i;
 
 	str = va_arg(args, char *);
+	if (!str)
+		return;
 	len = _strlen(str);
 	for (i = 0; i < len; i++)
 	{

@@ -40,7 +40,8 @@ int main(void)
     printf("Len:[%d]\n", len2);
     _printf("Unknown:[%r]\n");
     printf("Unknown:[%r]\n");
-    _printf("%   %% %  k %", len);
-    printf("%   %% %  g %", len);
+    len =  _printf("%   %% %  k \n", len);
+    len = printf("%   %% %  g \n", len);
+    printf("%d", len);
     return (0);
 }
