@@ -7,14 +7,15 @@
  * @is_unsign: 0 if int else unsigned
  * @count: pointer to the main printf charcater count
  *
- * Return: 0 if error otherwise 1
+ * Return: Nothing
  */
-int print_int(va_list args, char *buffer
+void print_int(va_list args, char *buffer
 		, int *buff_ind, int *count, int is_unsign)
 {
-	int num_i, neg = (char) '-';
+	int num_i;
 	unsigned int num_u, num2, rem, digit;
 	long int len = 1;
+	char neg = '-';
 
 	if (is_unsign)
 		num_u = va_arg(args, unsigned int);
@@ -23,8 +24,9 @@ int print_int(va_list args, char *buffer
 		num_i = va_arg(args, int);
 		if (num_i < 0)
 		{
-			buffer[(*buff_ind)++] = (char) neg;
-			flush_buffer(buffer, buff_ind, 0);
+			buffer[(*buff_ind)++] = neg;
+			if (*buff_ind == 1024)
+				flush_buffer(buffer, buff_ind);
 			(*count)++;
 			num_i = -num_i;
 		}
@@ -32,22 +34,23 @@ int print_int(va_list args, char *buffer
 	}
 	num2 = num_u;
 	rem = num_u;
-	while (num2 >= 10)
+	while (num2)
 	{
 		num2 /= 10;
 		len *= 10;
 	}
+	len /= 10;
 	while (len)
 	{
 		digit = rem / len;
 		rem = rem % len;
 		digit = digit + '0';
 		buffer[(*buff_ind)++] = digit;
-		flush_buffer(buffer, buff_ind, 0);
+		if (*buff_ind == 1024)
+			flush_buffer(buffer, buff_ind);
 		(*count)++;
 		len /= 10;
 	}
-	return (1);
 }
 
 /**
@@ -67,7 +70,8 @@ void print_d2b(unsigned int num, char *buffer, int *buff_ind, int *count)
 		print_d2b(num / 2, buffer, buff_ind, count);
 	digit = num % 2 + '0';
 	buffer[(*buff_ind)++] = digit;
-	flush_buffer(buffer, buff_ind, 0);
+	if (*buff_ind == 1024)
+		flush_buffer(buffer, buff_ind);
 	(*count)++;
 }
 
@@ -90,7 +94,8 @@ void print_d2o(unsigned int num, char *buffer, int *buff_ind, int *count)
 	}
 	digit = num % 8 + '0';
 	buffer[(*buff_ind)++] = digit;
-	flush_buffer(buffer, buff_ind, 0);
+	if (*buff_ind == 1024)
+		flush_buffer(buffer, buff_ind);
 	(*count)++;
 }
 
@@ -122,6 +127,7 @@ void print_d2x(unsigned int num, char *buffer
 	else
 		digit = temp + '0';
 	buffer[(*buff_ind)++] = digit;
-	flush_buffer(buffer, buff_ind, 0);
+	if (*buff_ind == 1024)
+		flush_buffer(buffer, buff_ind);
 	(*count)++;
 }

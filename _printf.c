@@ -12,32 +12,35 @@ int _printf(const char *format, ...)
 	va_list args;
 	char *buffer;
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
-	if (!(*format))
-		return (0);
 	buffer = malloc(1024 * (sizeof(*buffer)));
 	if (!buffer)
+		return (-1);
+	if (!format)
 		return (-1);
 	va_start(args, format);
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			i++;
-			while (format[i] == ' ')
-				i++;
-			format_selector(args, buffer, &buff_ind, format[i], &count);
+			while (format[++i] == ' ')
+				;
+			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
+			{
+				va_end(args);
+				free(buffer);
+				return (-1);
+			}
 		}
 		else
 		{
 			buffer[buff_ind++] = format[i];
-			flush_buffer(buffer, &buff_ind, 0);
+			if (buff_ind == 1024)
+				flush_buffer(buffer, &buff_ind);
 			count++;
 		}
 		i++;
 	}
-	flush_buffer(buffer, &buff_ind, 1);
+	flush_buffer(buffer, &buff_ind);
 	va_end(args);
 	free(buffer);
 	return (count);

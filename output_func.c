@@ -22,13 +22,10 @@ int _strlen(char *s)
  * flush_buffer - Prints the contents of the buffer and rewind
  * @buffer: Array of chars
  * @buff_ind: Index at which to add next char, represents the length.
- * @force: force flushing
- *
- * Return: Nothing
  */
-void flush_buffer(char *buffer, int *buff_ind, int force)
+void flush_buffer(char *buffer, int *buff_ind)
 {
-	if (*buff_ind == 1024 || force == 1)
+	if (*buff_ind > 0)
 		write(1, buffer, *buff_ind);
 	*buff_ind = 0;
 }
@@ -50,21 +47,16 @@ int format_selector(va_list args, char *buffer
 	if (format == 's')
 		print_str(args, buffer, buff_ind, count);
 	else if (format == 'c')
-	{
-		if (!print_char(args, buffer, buff_ind, count))
-			return (0);
-	}
+		print_char(args, buffer, buff_ind, count);
 	else if (format == '%')
 	{
 		buffer[(*buff_ind)++] = format;
-		flush_buffer(buffer, buff_ind, 0);
+		if (*buff_ind == 1024)
+			flush_buffer(buffer, buff_ind);
 		(*count)++;
 	}
 	else if (format == 'd' || format == 'i')
-	{
-		if (!print_int(args, buffer, buff_ind, count, 0))
-			return (0);
-	}
+		print_int(args, buffer, buff_ind, count, 0);
 	else if (format == 'b')
 		print_d2b(va_arg(args, unsigned int), buffer, buff_ind, count);
 	else if (format == 'u')
@@ -90,20 +82,18 @@ int format_selector(va_list args, char *buffer
 
 void print_str(va_list args, char *buffer, int *buff_ind, int *count)
 {
-	char *str;
-	char *null_str = "(null)";
+	char *str, *null_str = "(null)";
 	int len, i;
 
 	str = va_arg(args, char *);
 	if (!str)
-	{
 		str = null_str;
-	}
 	len = _strlen(str);
 	for (i = 0; i < len; i++)
 	{
 		buffer[(*buff_ind)++] = str[i];
-		flush_buffer(buffer, buff_ind, 0);
+		if (*buff_ind == 1024)
+			flush_buffer(buffer, buff_ind);
 		(*count)++;
 	}
 }
@@ -115,16 +105,16 @@ void print_str(va_list args, char *buffer, int *buff_ind, int *count)
  * @buff_ind: index of the current position in the buffer
  * @count: pointer to the main printf charcater count
  *
- * Return: 0 if no character else 1
+ * Return: Nothing
  */
 
-int print_char(va_list args, char *buffer, int *buff_ind, int *count)
+void print_char(va_list args, char *buffer, int *buff_ind, int *count)
 {
 	int c;
 
 	c = va_arg(args, int);
 	buffer[(*buff_ind)++] = (char) c;
-	flush_buffer(buffer, buff_ind, 0);
+	if (*buff_ind == 1024)
+		flush_buffer(buffer, buff_ind);
 	(*count)++;
-	return (1);
 }
