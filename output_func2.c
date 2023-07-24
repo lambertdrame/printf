@@ -7,10 +7,10 @@
  * @is_unsign: 0 if int else unsigned
  * @count: pointer to the main printf charcater count
  *
- * Return: Nothing 
+ * Return: Nothing
  */
 
-void print_int(va_list args,char* buffer, int *count, int is_unsign)
+void print_int(va_list args, char *buffer, int *count, int is_unsign)
 {
 	int num_i;
 	unsigned int num_u, num2, rem, digit;
@@ -106,7 +106,7 @@ void print_d2o(unsigned int num, char *buffer, int *count)
  * Return: Nothing
  */
 
-void print_d2x(unsigned int num, char* buffer, int *count, char letter)
+void print_d2x(unsigned int num, char *buffer, int *count, char letter)
 {
 	unsigned int digit, temp;
 

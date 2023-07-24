@@ -29,25 +29,25 @@ int _strlen(char *s)
 
 void format_selector(va_list args, char *buffer, char format, int *count)
 {
-	 if (format == 's')
-		 print_str(args, buffer, count);
-	 else if (format == 'c')
-		 print_char(args, buffer, count);
-	 else if (format == '%')
-	 {
-		 buffer[*count] = format;
-		 (*count)++;
-	 }
-	 else if (format == 'd' || format == 'i')
-		 print_int(args, buffer, count, 0);
-	 else if (format == 'b')
-		 print_d2b(va_arg(args, unsigned int), buffer, count);
-	 else if (format == 'u')
-		 print_int(args, buffer, count, 1);
-	 else if (format == 'o')
-		 print_d2o(va_arg(args, unsigned int), buffer, count);
-	 else if (format == 'x' || format == 'X')
-		 print_d2x(va_arg(args, unsigned int), buffer, count, format);
+	if (format == 's')
+		print_str(args, buffer, count);
+	else if (format == 'c')
+		print_char(args, buffer, count);
+	else if (format == '%')
+	{
+		buffer[*count] = format;
+		(*count)++;
+	}
+	else if (format == 'd' || format == 'i')
+		print_int(args, buffer, count, 0);
+	else if (format == 'b')
+		print_d2b(va_arg(args, unsigned int), buffer, count);
+	else if (format == 'u')
+		print_int(args, buffer, count, 1);
+	else if (format == 'o')
+		print_d2o(va_arg(args, unsigned int), buffer, count);
+	else if (format == 'x' || format == 'X')
+		print_d2x(va_arg(args, unsigned int), buffer, count, format);
 }
 
 /**
@@ -56,7 +56,7 @@ void format_selector(va_list args, char *buffer, char format, int *count)
  * @buffer: write buffer
  * @count: pointer to the main printf charcater count
  *
- * Return: Nothing 
+ * Return: Nothing
  */
 
 void print_str(va_list args, char *buffer, int *count)
