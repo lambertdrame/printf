@@ -119,8 +119,6 @@ int print_char(va_list args, char *buffer, int *buff_ind, int *count)
 	int c;
 
 	c = va_arg(args, int);
-	if (!c)
-		return (0);
 	buffer[(*buff_ind)++] = (char) c;
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
