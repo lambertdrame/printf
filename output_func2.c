@@ -7,12 +7,13 @@
  * @is_unsign: 0 if int else unsigned
  * @count: pointer to the main printf charcater count
  *
- * Return: Nothing
+ * Return: 0 if error otherwise 1
  */
-void print_int(va_list args, char *buffer
+int print_int(va_list args, char *buffer
 		, int *buff_ind, int *count, int is_unsign)
 {
 	int num_i;
+	double check_double;
 	unsigned int num_u, num2, rem, digit;
 	long int len = 1;
 	char neg = '-';
@@ -21,7 +22,11 @@ void print_int(va_list args, char *buffer
 		num_u = va_arg(args, unsigned int);
 	else
 	{
-		num_i = va_arg(args, int);
+		check_double = va_arg(args, double);
+		if (check_double != (int) check_double)
+			return (0);
+		else
+			num_i = (int) check_double;
 		if (num_i < 0)
 		{
 			buffer[(*buff_ind)++] = neg;
@@ -51,6 +56,7 @@ void print_int(va_list args, char *buffer
 		(*count)++;
 		len /= 10;
 	}
+	return (1);
 }
 
 /**

@@ -59,7 +59,10 @@ int format_selector(va_list args, char *buffer
 		(*count)++;
 	}
 	else if (format == 'd' || format == 'i')
-		print_int(args, buffer, buff_ind, count, 0);
+	{
+		if (!print_int(args, buffer, buff_ind, count, 0))
+			return (0);
+	}
 	else if (format == 'b')
 		print_d2b(va_arg(args, unsigned int), buffer, buff_ind, count);
 	else if (format == 'u')

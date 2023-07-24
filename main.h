@@ -10,7 +10,7 @@ int _strlen(char *s);
 void print_str(va_list args, char *buffer, int *buff_ind, int *count);
 int print_char(va_list args, char *buffer, int *buff_ind, int *count);
 int _printf(const char *format, ...);
-void print_int(va_list args, char *buffer
+int print_int(va_list args, char *buffer
 		, int *buff_ind, int *count, int is_unsign);
 void print_d2b(unsigned int num, char *buffer, int *buff_ind, int *count);
 void print_d2o(unsigned int num, char *buffer, int *buff_ind, int *count);
