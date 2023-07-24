@@ -27,13 +27,7 @@ int _printf(const char *format, ...)
 			i++;
 			while (format[i] == ' ')
 				i++;
-			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
-			{
-				flush_buffer(buffer, &buff_ind, 1);
-				va_end(args);
-				free(buffer);
-				return (-1);
-			}
+			format_selector(args, buffer, &buff_ind, format[i], &count)
 		}
 		else
 		{
