@@ -37,7 +37,7 @@ int _printf(const char *format, ...)
 				count++;
 			}
 			else
-				continue;
+				return (-1);
 		}
 		else
 		{
