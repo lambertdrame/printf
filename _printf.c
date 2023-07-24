@@ -29,6 +29,7 @@ int _printf(const char *format, ...)
 				i++;
 			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
 			{
+				flush_buffer(buffer, &buff_ind);
 				va_end(args);
 				free(buffer);
 				return (-1);
