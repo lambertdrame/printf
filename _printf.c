@@ -8,7 +8,7 @@
  */
 int _printf(const char *format, ...)
 {
-	int i = 0, count = 0;
+	int i = 0, count = 0, buff_ind = 0;
 	va_list args;
 	char *buffer;
 
@@ -24,17 +24,19 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			format_selector(args, buffer, format[i], &count);
+			format_selector(args, buffer, &buff_ind, format[i], &count);
 		}
 		else
 		{
-			buffer[count] = format[i];
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == 1024)
+				flush_buffer(buffer, &buff_ind);
 			count++;
 		}
 		i++;
 	}
 	va_end(args);
-	write(1, buffer, count);
+	flush_buffer(buffer, &buff_ind);
 	free(buffer);
 	return (count);
 }
