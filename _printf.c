@@ -9,12 +9,12 @@
  */
 int _printf(const char *format, ...)
 {
+	int i = 0;
+	int count = 0;
+	va_list args;
+
 	if (!format || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
-
-	int i = 0, count = 0;
-	va_list args;
-	char n = '\n';
 
 	va_start(args, format);
 	while (format[i])
