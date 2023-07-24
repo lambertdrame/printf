@@ -13,7 +13,6 @@ int print_int(va_list args, char *buffer
 		, int *buff_ind, int *count, int is_unsign)
 {
 	int num_i, neg = (char) '-';
-	double check_double;
 	unsigned int num_u, num2, rem, digit;
 	long int len = 1;
 
@@ -21,10 +20,7 @@ int print_int(va_list args, char *buffer
 		num_u = va_arg(args, unsigned int);
 	else
 	{
-		check_double = va_arg(args, double);
-		if (check_double != (int) check_double)
-			return (0);
-		num_i = (int) check_double;
+		num_i = va_arg(args, int);
 		if (num_i < 0)
 		{
 			buffer[(*buff_ind)++] = (char) neg;
