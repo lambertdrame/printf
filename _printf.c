@@ -12,7 +12,7 @@ int _printf(const char *format, ...)
 	va_list args;
 	char *buffer;
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
+	if (!format || (format[0] == '%' && format[1] == '\0') || !(*format))
 		return (-1);
 	buffer = malloc(1024 * (sizeof(*buffer)));
 	if (!buffer)
