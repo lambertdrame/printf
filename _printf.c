@@ -24,8 +24,9 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			while (format[++i] == ' ')
-				;
+			i++;
+			while (format[i] == ' ')
+				i++;
 			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
 			{
 				va_end(args);
