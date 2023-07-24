@@ -18,6 +18,6 @@ void print_d2x(unsigned int num, char *buffer
 		, int *buff_ind, int *count, char letter);
 int format_selector(va_list args, char *buffer
 		, int *buff_ind, char format, int *count);
-void flush_buffer(char *buffer, int *buff_ind);
+void flush_buffer(char *buffer, int *buff_ind, int force);
 
 #endif

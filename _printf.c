@@ -29,7 +29,7 @@ int _printf(const char *format, ...)
 				i++;
 			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
 			{
-				flush_buffer(buffer, &buff_ind);
+				flush_buffer(buffer, &buff_ind, 1);
 				va_end(args);
 				free(buffer);
 				return (-1);
@@ -38,13 +38,12 @@ int _printf(const char *format, ...)
 		else
 		{
 			buffer[buff_ind++] = format[i];
-			if (buff_ind == 1024)
-				flush_buffer(buffer, &buff_ind);
+			flush_buffer(buffer, &buff_ind, 0);
 			count++;
 		}
 		i++;
 	}
-	flush_buffer(buffer, &buff_ind);
+	flush_buffer(buffer, &buff_ind, 1);
 	va_end(args);
 	free(buffer);
 	return (count);

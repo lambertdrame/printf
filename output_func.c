@@ -22,10 +22,13 @@ int _strlen(char *s)
  * flush_buffer - Prints the contents of the buffer and rewind
  * @buffer: Array of chars
  * @buff_ind: Index at which to add next char, represents the length.
+ * @force: force flushing
+ *
+ * Return: Nothing
  */
-void flush_buffer(char *buffer, int *buff_ind)
+void flush_buffer(char *buffer, int *buff_ind, int force)
 {
-	if (*buff_ind > 0)
+	if (*buff_ind == 1024 || force == 1)
 		write(1, buffer, *buff_ind);
 	*buff_ind = 0;
 }
@@ -54,8 +57,7 @@ int format_selector(va_list args, char *buffer
 	else if (format == '%')
 	{
 		buffer[(*buff_ind)++] = format;
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
+		flush_buffer(buffer, buff_ind, 0);
 		(*count)++;
 	}
 	else if (format == 'd' || format == 'i')
@@ -101,8 +103,7 @@ void print_str(va_list args, char *buffer, int *buff_ind, int *count)
 	for (i = 0; i < len; i++)
 	{
 		buffer[(*buff_ind)++] = str[i];
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
+		flush_buffer(buffer, buff_ind, 0);
 		(*count)++;
 	}
 }
@@ -123,8 +124,7 @@ int print_char(va_list args, char *buffer, int *buff_ind, int *count)
 
 	c = va_arg(args, int);
 	buffer[(*buff_ind)++] = (char) c;
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
+	flush_buffer(buffer, buff_ind, 0);
 	(*count)++;
 	return (1);
 }

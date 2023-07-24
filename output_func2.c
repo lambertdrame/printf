@@ -12,11 +12,10 @@
 int print_int(va_list args, char *buffer
 		, int *buff_ind, int *count, int is_unsign)
 {
-	int num_i;
+	int num_i, neg = (char) '-';
 	double check_double;
 	unsigned int num_u, num2, rem, digit;
 	long int len = 1;
-	char neg = '-';
 
 	if (is_unsign)
 		num_u = va_arg(args, unsigned int);
@@ -25,13 +24,11 @@ int print_int(va_list args, char *buffer
 		check_double = va_arg(args, double);
 		if (check_double != (int) check_double)
 			return (0);
-		else
-			num_i = (int) check_double;
+		num_i = (int) check_double;
 		if (num_i < 0)
 		{
-			buffer[(*buff_ind)++] = neg;
-			if (*buff_ind == 1024)
-				flush_buffer(buffer, buff_ind);
+			buffer[(*buff_ind)++] = (char) neg;
+			flush_buffer(buffer, buff_ind, 0);
 			(*count)++;
 			num_i = -num_i;
 		}
@@ -39,20 +36,18 @@ int print_int(va_list args, char *buffer
 	}
 	num2 = num_u;
 	rem = num_u;
-	while (num2)
+	while (num2 >= 10)
 	{
 		num2 /= 10;
 		len *= 10;
 	}
-	len /= 10;
 	while (len)
 	{
 		digit = rem / len;
 		rem = rem % len;
 		digit = digit + '0';
 		buffer[(*buff_ind)++] = digit;
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
+		flush_buffer(buffer, buff_ind, 0);
 		(*count)++;
 		len /= 10;
 	}
@@ -76,8 +71,7 @@ void print_d2b(unsigned int num, char *buffer, int *buff_ind, int *count)
 		print_d2b(num / 2, buffer, buff_ind, count);
 	digit = num % 2 + '0';
 	buffer[(*buff_ind)++] = digit;
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
+	flush_buffer(buffer, buff_ind, 0);
 	(*count)++;
 }
 
@@ -100,8 +94,7 @@ void print_d2o(unsigned int num, char *buffer, int *buff_ind, int *count)
 	}
 	digit = num % 8 + '0';
 	buffer[(*buff_ind)++] = digit;
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
+	flush_buffer(buffer, buff_ind, 0);
 	(*count)++;
 }
 
@@ -133,7 +126,6 @@ void print_d2x(unsigned int num, char *buffer
 	else
 		digit = temp + '0';
 	buffer[(*buff_ind)++] = digit;
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
+	flush_buffer(buffer, buff_ind, 0);
 	(*count)++;
 }
