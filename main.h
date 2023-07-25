@@ -7,7 +7,8 @@
 #include <stdlib.h>
 
 int _strlen(char *s);
-void print_str(va_list args, char *buffer, int *buff_ind, int *count);
+void print_str(va_list args, char format, char *buffer
+		, int *buff_ind, int *count);
 void print_char(va_list args, char *buffer, int *buff_ind, int *count);
 int _printf(const char *format, ...);
 void print_int(va_list args, char format, char *buffer, int *buff_ind
