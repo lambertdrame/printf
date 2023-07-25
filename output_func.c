@@ -113,12 +113,12 @@ void print_str(va_list args, char format, char *buffer
 				buffer[(*buff_ind)++] = '\\';
 				if (*buff_ind == 1024)
 					flush_buffer(buffer, buff_ind);
-				(*count)++;
 				buffer[(*buff_ind)++] = 'x';
 				if (*buff_ind == 1024)
 					flush_buffer(buffer, buff_ind);
-				(*count)++;
-				print_d2boxX((((unsigned int) str[i]) >> 4) & 0x0F, 'X', buffer, buff_ind, count);
+				(*count) += 2;
+				print_d2boxX((((unsigned int) str[i]) >> 4)
+						& 0x0F, 'X', buffer, buff_ind, count);
 				print_d2boxX(((unsigned int) str[i]) & 0x0F, 'X', buffer, buff_ind, count);
 			}
 			else
