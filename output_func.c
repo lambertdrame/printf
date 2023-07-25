@@ -87,7 +87,8 @@ int format_selector(va_list args, char *buffer
  * Return: Nothing
  */
 
-void print_str(va_list args, char format, char *buffer, int *buff_ind, int *count)
+void print_str(va_list args, char format, char *buffer,
+	       int *buff_ind, int *count)
 {
 	char *str, *null_str = "(null)";
 	int len, i;
@@ -98,19 +99,20 @@ void print_str(va_list args, char format, char *buffer, int *buff_ind, int *coun
 	len = _strlen(str);
 	for (i = 0; i < len; i++)
 	{
-		if (format == 'S' &&
-				(((int) str[i] > 0 && (int) str[i] < 32) || (int) str[i] >= 127)) 
+		if (format == 'S' && ((str[i] > 0 && str[i] < 32) || str[i] >= 127))
 		{
-			 buffer[(*buff_ind)++] = '\\';
-			 if (*buff_ind == 1024)
-				 flush_buffer(buffer, buff_ind);
-			 (*count)++;
-			 buffer[(*buff_ind)++] = 'x';
-			 if (*buff_ind == 1024)
-				 flush_buffer(buffer, buff_ind);
-			 (*count)++;
-			 print_d2boxX(((unsigned int) str[i] >> 4) & 0x0F , format, buffer, buff_ind, count);
-			 print_d2boxX(((unsigned int) str[i]) & 0x0F , format, buffer, buff_ind, count);
+			buffer[(*buff_ind)++] = '\\';
+			if (*buff_ind == 1024)
+				flush_buffer(buffer, buff_ind);
+			(*count)++;
+			buffer[(*buff_ind)++] = 'x';
+			if (*buff_ind == 1024)
+				flush_buffer(buffer, buff_ind);
+			(*count)++;
+			print_d2boxX(((unsigned int) str[i] >> 4) & 0x0F
+					 , format, buffer, buff_ind, count);
+			print_d2boxX(((unsigned int) str[i]) & 0x0Fi
+					 , format, buffer, buff_ind, count);
 		}
 		else
 		{
