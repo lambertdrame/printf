@@ -26,23 +26,10 @@ int print_str(va_list args)
 {
 	char *str;
 	int len;
-	int p;
-	int w_size;
 
 	str = va_arg(args, char *);
-	if (str == NULL)
-	{
-		str = "(null)";
-		if (p >= 6)
-			str = "";
-	}
 
 	len = _strlen(str);
-	while (str[len] != '\0')
-		len++;
-	if (p >= 0 && p < len)
-		len = p;
-	if (w_size > len)
 
 	write(1, str, len);
 

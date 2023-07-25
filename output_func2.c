@@ -32,22 +32,19 @@ void print_int(va_list args, char *buffer
 		}
 		num_u = num_i;
 	}
-
 	if (num_u == 0)
 	{
 		buffer[(*buff_ind)++] = '0';
 		(*count)++;
 		return;
 	}
-
 	num2 = num_u;
 	rem = num_u;
-	while (num2)
+	while (num2 >= 10)
 	{
 		num2 /= 10;
 		len *= 10;
 	}
-	len /= 10;
 	while (len)
 	{
 		digit = rem / len;

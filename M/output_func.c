@@ -82,10 +82,12 @@ int format_selector(va_list args, char *buffer
 
 void print_str(va_list args, char *buffer, int *buff_ind, int *count)
 {
-	char *str;
+	char *str, *null_str = "(null)";
 	int len, i;
 
 	str = va_arg(args, char *);
+	if (!str)
+		str = null_str;
 	len = _strlen(str);
 	for (i = 0; i < len; i++)
 	{
