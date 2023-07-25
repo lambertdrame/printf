@@ -37,6 +37,7 @@ void flush_buffer(char *buffer, int *buff_ind)
  * @buff_ind: index of the current position in the buffer
  * @format: format character
  * @count: pointer to the main printf charcater count
+ * @space: check if there is space between unknown
  *
  * Return:0 if not valid format character else 1
  */
