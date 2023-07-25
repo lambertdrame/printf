@@ -11,6 +11,7 @@ int _printf(const char *format, ...)
 	int i = 0, count = 0, buff_ind = 0;
 	va_list args;
 	char *buffer;
+	int space = 0;
 
 	buffer = malloc(1024 * (sizeof(*buffer)));
 	if (!buffer)
@@ -23,8 +24,8 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			while (format[++i] == ' ')
-				;
-			if (!format_selector(args, buffer, &buff_ind, format[i], &count))
+				space++;
+			if (!format_selector(args, buffer, &buff_ind, format[i], &count, space))
 			{
 				va_end(args);
 				free(buffer);

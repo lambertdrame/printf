@@ -42,7 +42,7 @@ void flush_buffer(char *buffer, int *buff_ind)
  */
 
 int format_selector(va_list args, char *buffer
-		, int *buff_ind, char format, int *count)
+		, int *buff_ind, char format, int *count, int space)
 {
 	if (format == 's')
 		print_str(args, buffer, buff_ind, count);
@@ -65,8 +65,21 @@ int format_selector(va_list args, char *buffer
 		print_d2o(va_arg(args, unsigned int), buffer, buff_ind, count);
 	else if (format == 'x' || format == 'X')
 		print_d2x(va_arg(args, unsigned int), buffer, buff_ind, count, format);
-	else
+	else if (format == '\0')
 		return (0);
+	else
+	{
+		buffer[(*buff_ind)++] = '%';
+		if (space)
+		{
+			buffer[(*buff_ind)++] = ' ';
+			(*count)++;
+		}
+		buffer[(*buff_ind)++] = format;
+		(*count)++;
+		if (*buff_ind == 1024)
+			flush_buffer(buffer, buff_ind);
+	}
 	return (1);
 }
 
