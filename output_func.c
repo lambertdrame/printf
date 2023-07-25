@@ -65,11 +65,10 @@ int format_selector(va_list args, char *buffer
 		print_d2o(va_arg(args, unsigned int), buffer, buff_ind, count);
 	else if (format == 'x' || format == 'X')
 		print_d2x(va_arg(args, unsigned int), buffer, buff_ind, count, format);
-	else if (format == '\0')
-		return (0);
-	else
+	else if (format != '\0')
 	{
 		buffer[(*buff_ind)++] = '%';
+		(*count)++;
 		if (space)
 		{
 			buffer[(*buff_ind)++] = ' ';
@@ -80,6 +79,8 @@ int format_selector(va_list args, char *buffer
 		if (*buff_ind == 1024)
 			flush_buffer(buffer, buff_ind);
 	}
+	else
+		return (0);
 	return (1);
 }
 
