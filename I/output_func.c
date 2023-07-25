@@ -6,14 +6,17 @@
  *
  * Return: length of s
  */
+
 int _strlen(char *s)
 {
 	int i;
 
 	for (i = 0; s[i] != '\0'; i++)
 		;
+
 	return (i);
 }
+
 
 /**
  * flush_buffer - Prints the contents of the buffer and rewind
@@ -53,10 +56,16 @@ int format_selector(va_list args, char *buffer
 			flush_buffer(buffer, buff_ind);
 		(*count)++;
 	}
-	else if (format == 'd' || format == 'i' || format == 'u')
-		print_int(args, format, buffer, buff_ind, count);
-	else if (format == 'b' || format == 'o' || format == 'x' || format == 'X')
-		print_d2boxX(va_arg(args, unsigned int), format, buffer, buff_ind, count);
+	else if (format == 'd' || format == 'i')
+		print_int(args, buffer, buff_ind, count, 0);
+	else if (format == 'b')
+		print_d2b(va_arg(args, unsigned int), buffer, buff_ind, count);
+	else if (format == 'u')
+		print_int(args, buffer, buff_ind, count, 1);
+	else if (format == 'o')
+		print_d2o(va_arg(args, unsigned int), buffer, buff_ind, count);
+	else if (format == 'x' || format == 'X')
+		print_d2x(va_arg(args, unsigned int), buffer, buff_ind, count, format);
 	else if (format != '\0')
 	{
 		buffer[(*buff_ind)++] = '%';
