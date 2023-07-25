@@ -42,8 +42,8 @@ void flush_buffer(char *buffer, int *buff_ind)
 int format_selector(va_list args, char *buffer
 		, int *buff_ind, char format, int *count, int space)
 {
-	if (format == 's')
-		print_str(args, buffer, buff_ind, count);
+	if (format == 's' || format == 'S')
+		print_str(args, format, buffer, buff_ind, count);
 	else if (format == 'c')
 		print_char(args, buffer, buff_ind, count);
 	else if (format == '%')
@@ -79,6 +79,7 @@ int format_selector(va_list args, char *buffer
 /**
  * print_str - prints string
  * @args: The string gotten from the arguments
+ * @format: s or S
  * @buffer: write buffer
  * @buff_ind: index of the current position in the buffer
  * @count: pointer to the main printf charcater count
@@ -86,7 +87,7 @@ int format_selector(va_list args, char *buffer
  * Return: Nothing
  */
 
-void print_str(va_list args, char *buffer, int *buff_ind, int *count)
+void print_str(va_list args, char format, char *buffer, int *buff_ind, int *count)
 {
 	char *str, *null_str = "(null)";
 	int len, i;
@@ -97,10 +98,27 @@ void print_str(va_list args, char *buffer, int *buff_ind, int *count)
 	len = _strlen(str);
 	for (i = 0; i < len; i++)
 	{
-		buffer[(*buff_ind)++] = str[i];
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
-		(*count)++;
+		if (format == 'S' &&
+				(((int) str[i] > 0 && (int) str[i] < 32) || (int) str[i] >= 127)) 
+		{
+			 buffer[(*buff_ind)++] = '\\';
+			 if (*buff_ind == 1024)
+				 flush_buffer(buffer, buff_ind);
+			 (*count)++;
+			 buffer[(*buff_ind)++] = 'x';
+			 if (*buff_ind == 1024)
+				 flush_buffer(buffer, buff_ind);
+			 (*count)++;
+			 print_d2boxX(((unsigned int) str[i] >> 4) & 0x0F , format, buffer, buff_ind, count);
+			 print_d2boxX(((unsigned int) str[i]) & 0x0F , format, buffer, buff_ind, count);
+		}
+		else
+		{
+			buffer[(*buff_ind)++] = str[i];
+			if (*buff_ind == 1024)
+				flush_buffer(buffer, buff_ind);
+			(*count)++;
+		}
 	}
 }
 
