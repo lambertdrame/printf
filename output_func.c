@@ -110,9 +110,9 @@ void print_str(va_list args, char format, char *buffer,
 				flush_buffer(buffer, buff_ind);
 			(*count)++;
 			print_d2boxX(((unsigned int) str[i] >> 4) & 0x0F
-					 , format, buffer, buff_ind, count);
+					 , 'X', buffer, buff_ind, count);
 			print_d2boxX(((unsigned int) str[i]) & 0x0F
-					 , format, buffer, buff_ind, count);
+					 , 'X', buffer, buff_ind, count);
 		}
 		else
 		{
