@@ -37,12 +37,13 @@ void flush_buffer(char *buffer, int *buff_ind)
  * @buff_ind: index of the current position in the buffer
  * @format: format character
  * @count: pointer to the main printf charcater count
+ * @space: check if there is space between unknown
  *
  * Return:0 if not valid format character else 1
  */
 
 int format_selector(va_list args, char *buffer
-		, int *buff_ind, char format, int *count)
+		, int *buff_ind, char format, int *count, int space)
 {
 	if (format == 's')
 		print_str(args, buffer, buff_ind, count);
@@ -65,6 +66,20 @@ int format_selector(va_list args, char *buffer
 		print_d2o(va_arg(args, unsigned int), buffer, buff_ind, count);
 	else if (format == 'x' || format == 'X')
 		print_d2x(va_arg(args, unsigned int), buffer, buff_ind, count, format);
+	else if (format != '\0')
+	{
+		buffer[(*buff_ind)++] = '%';
+		(*count)++;
+		if (space)
+		{
+			buffer[(*buff_ind)++] = ' ';
+			(*count)++;
+		}
+		buffer[(*buff_ind)++] = format;
+		(*count)++;
+		if (*buff_ind == 1024)
+			flush_buffer(buffer, buff_ind);
+	}
 	else
 		return (0);
 	return (1);

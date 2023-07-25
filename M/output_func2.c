@@ -34,12 +34,11 @@ void print_int(va_list args, char *buffer
 	}
 	num2 = num_u;
 	rem = num_u;
-	while (num2)
+	while (num2 >= 10)
 	{
 		num2 /= 10;
 		len *= 10;
 	}
-	len /= 10;
 	while (len)
 	{
 		digit = rem / len;

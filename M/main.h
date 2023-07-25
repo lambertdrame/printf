@@ -17,7 +17,7 @@ void print_d2o(unsigned int num, char *buffer, int *buff_ind, int *count);
 void print_d2x(unsigned int num, char *buffer
 		, int *buff_ind, int *count, char letter);
 int format_selector(va_list args, char *buffer
-		, int *buff_ind, char format, int *count);
+		, int *buff_ind, char format, int *count, int space);
 void flush_buffer(char *buffer, int *buff_ind);
 
 #endif

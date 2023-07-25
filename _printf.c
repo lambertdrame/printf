@@ -14,10 +14,11 @@ int _printf(const char *format, ...)
 	int space = 0;
 
 	buffer = malloc(1024 * (sizeof(*buffer)));
-	if (!buffer)
+	if (!buffer || !format)
+	{
+		buffer ? free(buffer) : (void) i;
 		return (-1);
-	if (!format)
-		return (-1);
+	}
 	va_start(args, format);
 	while (format[i])
 	{
