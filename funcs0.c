@@ -60,14 +60,9 @@ int format_selector(va_list args, char *buffer
 		}
 	}
 	if (func_list[i].fc == '\0')
-		return (func_list[i].f(args, num, recursive, format
-					, buffer, buff_ind, count, space));
-	else
-	{
-		print_percent(args, num, recursive, format
+		return (-1);
+	print_end(args, num, recursive, format
 				, buffer, buff_ind, count, space);
-		print_char(args, num, recursive, format, buffer, buff_ind, count, space);
-	}
 	return (0);
 }
 
