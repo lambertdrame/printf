@@ -25,7 +25,8 @@ int _printf(const char *format, ...)
 		{
 			while (format[++i] == ' ')
 				space++;
-			if (!format_selector(args, buffer, &buff_ind, format[i], &count, space))
+			if (format_selector(args, buffer, &buff_ind
+						, format[i], &count, space) == -1)
 			{
 				va_end(args);
 				free(buffer);
@@ -46,3 +47,4 @@ int _printf(const char *format, ...)
 	free(buffer);
 	return (count);
 }
+

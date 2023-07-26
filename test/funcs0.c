@@ -42,7 +42,7 @@ void flush_buffer(char *buffer, int *buff_ind)
 int format_selector(va_list args, char *buffer
 		, int *buff_ind, char format, int *count, int space)
 {
-	int i = 0, f_status, recursive = 0;
+	int i = 0, recursive = 0;
 	unsigned int num = 0;
 
 	f_list func_list[] = {
@@ -51,11 +51,24 @@ int format_selector(va_list args, char *buffer
 		{'u', print_int}, {'o', print_d2boxX}, {'x', print_d2boxX},
 		{'X', print_d2boxX}, {'S', print_str}, {'\0', print_end}
 	};
-	while (func_list[i].fc != format)
-		i++;
-	f_status = func_list[i].f(args, num, recursive, format
-			, buffer, buff_ind, count, space);
-	return (f_status);
+	for (i = 0; func_list[i].fc != '\0'; i++)
+	{
+		if (func_list[i].fc == format)
+		{
+			return (func_list[i].f(args, num, recursive, format
+						, buffer, buff_ind, count, space));
+		}
+	}
+	if (func_list[i].fc == '\0')
+		return (func_list[i].f(args, num, recursive, format
+					, buffer, buff_ind, count, space));
+	else
+	{
+		print_percent(args, num, recursive, format
+				, buffer, buff_ind, count, space);
+		print_char(args, num, recursive, format, buffer, buff_ind, count, space);
+	}
+	return (0);
 }
 
 /**
@@ -98,7 +111,7 @@ int print_str(va_list args, unsigned int num, int recursive, char format
 			if (*buff_ind == 1024)
 				flush_buffer(buffer, buff_ind);
 			(*count)++;
-			print_d2boxX(args,((unsigned int) str[i] >> 4) & 0x0F
+			print_d2boxX(args, ((unsigned int) str[i] >> 4) & 0x0F
 					 , 1, 'X', buffer, buff_ind, count, space);
 			print_d2boxX(args, ((unsigned int) str[i]) & 0x0F
 					 , 1, 'X', buffer, buff_ind, count, space);

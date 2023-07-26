@@ -36,62 +36,64 @@ void flush_buffer(char *buffer, int *buff_ind)
  * @count: pointer to the main printf charcater count
  * @space: check if there is space between unknown
  *
- * Return:0 if not valid format character else 1
+ * Return: -1 if not valid format character else 0
  */
 
 int format_selector(va_list args, char *buffer
 		, int *buff_ind, char format, int *count, int space)
 {
-	if (format == 's' || format == 'S')
-		print_str(args, format, buffer, buff_ind, count);
-	else if (format == 'c')
-		print_char(args, buffer, buff_ind, count);
-	else if (format == '%')
+	int i = 0, recursive = 0;
+	unsigned int num = 0;
+
+	f_list func_list[] = {
+		{'c', print_char}, {'s', print_str}, {'%', print_percent},
+		{'i', print_int}, {'d', print_int}, {'b', print_d2boxX},
+		{'u', print_int}, {'o', print_d2boxX}, {'x', print_d2boxX},
+		{'X', print_d2boxX}, {'S', print_str}, {'\0', print_end}
+	};
+	for (i = 0; func_list[i].fc != '\0'; i++)
 	{
-		buffer[(*buff_ind)++] = format;
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
-		(*count)++;
-	}
-	else if (format == 'd' || format == 'i' || format == 'u')
-		print_int(args, format, buffer, buff_ind, count);
-	else if (format == 'b' || format == 'o' || format == 'x' || format == 'X')
-		print_d2boxX(va_arg(args, unsigned int), format, buffer, buff_ind, count);
-	else if (format != '\0')
-	{
-		buffer[(*buff_ind)++] = '%';
-		(*count)++;
-		if (space)
+		if (func_list[i].fc == format)
 		{
-			buffer[(*buff_ind)++] = ' ';
-			(*count)++;
+			return (func_list[i].f(args, num, recursive, format
+						, buffer, buff_ind, count, space));
 		}
-		buffer[(*buff_ind)++] = format;
-		(*count)++;
-		if (*buff_ind == 1024)
-			flush_buffer(buffer, buff_ind);
 	}
+	if (func_list[i].fc == '\0')
+		return (func_list[i].f(args, num, recursive, format
+					, buffer, buff_ind, count, space));
 	else
-		return (0);
-	return (1);
+	{
+		print_percent(args, num, recursive, format
+				, buffer, buff_ind, count, space);
+		print_char(args, num, recursive, format, buffer, buff_ind, count, space);
+	}
+	return (0);
 }
 
 /**
  * print_str - prints string
- * @args: The string gotten from the arguments
- * @format: s or S
+ * @args: The int gotten from the arguments
+ * @num: the number extracted from args
+ * @recursive: 1 if recursive initiated otherwise 0
+ * @format: i or d or u
  * @buffer: write buffer
  * @buff_ind: index of the current position in the buffer
  * @count: pointer to the main printf charcater count
+ * @space: number of previous spaces
  *
- * Return: Nothing
+ * Return: -1 if error otherwise 0
  */
 
-void print_str(va_list args, char format, char *buffer,
-	       int *buff_ind, int *count)
+int print_str(va_list args, unsigned int num, int recursive, char format
+		, char *buffer, int *buff_ind, int *count, int space)
 {
 	char *str, *null_str = "(null)";
 	int len, i;
+
+	(void) space;
+	(void) recursive;
+	(void) num;
 
 	str = va_arg(args, char *);
 	if (!str)
@@ -109,10 +111,10 @@ void print_str(va_list args, char format, char *buffer,
 			if (*buff_ind == 1024)
 				flush_buffer(buffer, buff_ind);
 			(*count)++;
-			print_d2boxX(((unsigned int) str[i] >> 4) & 0x0F
-					 , 'X', buffer, buff_ind, count);
-			print_d2boxX(((unsigned int) str[i]) & 0x0F
-					 , 'X', buffer, buff_ind, count);
+			print_d2boxX(args, ((unsigned int) str[i] >> 4) & 0x0F
+					 , 1, 'X', buffer, buff_ind, count, space);
+			print_d2boxX(args, ((unsigned int) str[i]) & 0x0F
+					 , 1, 'X', buffer, buff_ind, count, space);
 		}
 		else
 		{
@@ -122,25 +124,37 @@ void print_str(va_list args, char format, char *buffer,
 			(*count)++;
 		}
 	}
+	return (0);
 }
 
 /**
  * print_char - prints char
- * @args: The char gotten from the arguments
+ * @args: The int gotten from the arguments
+ * @num: the number extracted from args
+ * @recursive: 1 if recursive initiated otherwise 0
+ * @format: i or d or u
  * @buffer: write buffer
  * @buff_ind: index of the current position in the buffer
  * @count: pointer to the main printf charcater count
+ * @space: number of previous spaces
  *
- * Return: Nothing
+ * Return: -1 if error otherwise 0
  */
 
-void print_char(va_list args, char *buffer, int *buff_ind, int *count)
+int print_char(va_list args, unsigned int num, int recursive, char format
+		, char *buffer, int *buff_ind, int *count, int space)
 {
 	int c;
+
+	(void) space;
+	(void) num;
+	(void) recursive;
+	(void) format;
 
 	c = va_arg(args, int);
 	buffer[(*buff_ind)++] = (char) c;
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
 	(*count)++;
+	return (0);
 }

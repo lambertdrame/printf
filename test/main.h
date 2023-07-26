@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 /**
- * typedef struct f_list_s f_list - struct to link format with function name
+ * struct f_list_s  - struct to link format with function name
  *
  * @fc: format character
  * @f: function name
