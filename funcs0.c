@@ -59,7 +59,7 @@ int format_selector(va_list args, char *buffer
 						, buffer, buff_ind, count, space));
 		}
 	}
-	if (func_list[i].fc == '\0')
+	if (format == '\0')
 		return (-1);
 	print_end(args, num, recursive, format
 				, buffer, buff_ind, count, space);

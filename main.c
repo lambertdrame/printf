@@ -39,6 +39,8 @@ int main(void)
 	_printf("Len:[%d]\n", len);
 	printf("Len:[%d]\n", len2);
 	_printf("%S\n", "Best\nSchool");
+	_printf("%!\n");
+	_printf("%K\n");
 	return (0);
 }
 
