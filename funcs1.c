@@ -191,9 +191,8 @@ int print_pointer(va_list args, unsigned long int num, int recursive
 		, char format, char *buffer, int *buff_ind, int *count, int space)
 {
 	void *address;
-	int i;
 	char str[] = "(nil)";
-	int len = _strlen(str);
+	int len = _strlen(str), i, width = 6;
 
 	(void) space;
 	(void) recursive;
@@ -212,6 +211,8 @@ int print_pointer(va_list args, unsigned long int num, int recursive
 		return (0);
 	}
 	num = (unsigned long int) address;
+	if (num & 0xffff000000000000)
+		width = 8;
 	buffer[(*buff_ind)++] = '0';
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
@@ -220,7 +221,7 @@ int print_pointer(va_list args, unsigned long int num, int recursive
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
 	(*count)++;
-	for (i = 11; i >= 0; i--)
+	for (i = (width * 2 - 1); i >= 0; i--)
 	{
 		print_d2boxX(args, ((unsigned long int) num >> (4 * i)) & 0x0F
 				, 1, 'x', buffer, buff_ind, count, space);
