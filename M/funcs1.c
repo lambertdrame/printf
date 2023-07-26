@@ -12,7 +12,7 @@
  *
  * Return: -1 if error otherwise 0
  */
-int print_int(va_list args, unsigned long int num, int recursive, char format
+int print_int(va_list args, unsigned int num, int recursive, char format
 		, char *buffer, int *buff_ind, int *count, int space)
 {
 	long int num_i, len = 1;
@@ -70,7 +70,7 @@ int print_int(va_list args, unsigned long int num, int recursive, char format
  *
  * Return: -1 if error otherwise 0
  */
-int print_d2boxX(va_list args, unsigned long int num, int recursive
+int print_d2boxX(va_list args, unsigned int num, int recursive
 		, char format, char *buffer, int *buff_ind, int *count, int space)
 {
 	unsigned int digit, base;
@@ -124,8 +124,8 @@ int print_d2boxX(va_list args, unsigned long int num, int recursive
  * Return: -1 if error otherwise 0
  */
 
-int print_percent(va_list args, unsigned long int num, int recursive
-		, char format, char *buffer, int *buff_ind, int *count, int space)
+int print_percent(va_list args, unsigned int num, int recursive, char format
+		, char *buffer, int *buff_ind, int *count, int space)
 {
 	(void) args;
 	(void) num;
@@ -153,7 +153,7 @@ int print_percent(va_list args, unsigned long int num, int recursive
  * Return: -1 if error otherwise 0
  */
 
-int print_end(va_list args, unsigned long int num, int recursive, char format
+int print_end(va_list args, unsigned int num, int recursive, char format
 		, char *buffer, int *buff_ind, int *count, int space)
 {
 	(void) args;
@@ -171,60 +171,5 @@ int print_end(va_list args, unsigned long int num, int recursive, char format
 	(*count)++;
 	if (*buff_ind == 1024)
 		flush_buffer(buffer, buff_ind);
-	return (0);
-}
-
-/**
- * print_pointer - prints address
- * @args: The int gotten from the arguments
- * @num: the number extracted from args
- * @recursive: 1 if recursive initiated otherwise 0
- * @format: i or d or u
- * @buffer: write buffer
- * @buff_ind: index of the current position in the buffer
- * @count: pointer to the main printf charcater count
- * @space: number of spaces
- *
- * Return: -1 if error otherwise 0
- */
-int print_pointer(va_list args, unsigned long int num, int recursive
-		, char format, char *buffer, int *buff_ind, int *count, int space)
-{
-	void *address;
-	int i;
-	char str[] = "(nil)";
-	int len = _strlen(str);
-
-	(void) space;
-	(void) recursive;
-	(void) format;
-
-	address = va_arg(args, void *);
-	if (!address)
-	{
-		for (i = 0; i < len; i++)
-		{
-			buffer[(*buff_ind)++] = str[i];
-			if (*buff_ind == 1024)
-				flush_buffer(buffer, buff_ind);
-			(*count)++;
-		}
-		return (0);
-	}
-	num = (unsigned long int) address;
-	buffer[(*buff_ind)++] = '0';
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
-	(*count)++;
-	buffer[(*buff_ind)++] = 'x';
-	if (*buff_ind == 1024)
-		flush_buffer(buffer, buff_ind);
-	(*count)++;
-	for (i = 11; i >= 0; i--)
-	{
-		print_d2boxX(args, ((unsigned long int) num >> (4 * i)) & 0x0F
-				, 1, 'x', buffer, buff_ind, count, space);
-	}
-
 	return (0);
 }

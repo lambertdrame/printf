@@ -49,7 +49,8 @@ int format_selector(va_list args, char *buffer
 		{'c', print_char}, {'s', print_str}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}, {'b', print_d2boxX},
 		{'u', print_int}, {'o', print_d2boxX}, {'x', print_d2boxX},
-		{'X', print_d2boxX}, {'S', print_str}, {'\0', print_end}
+		{'X', print_d2boxX}, {'S', print_str}, {'p', print_pointer}
+		, {'\0', print_end}
 	};
 	for (i = 0; func_list[i].fc != '\0'; i++)
 	{
@@ -80,7 +81,7 @@ int format_selector(va_list args, char *buffer
  * Return: -1 if error otherwise 0
  */
 
-int print_str(va_list args, unsigned int num, int recursive, char format
+int print_str(va_list args, unsigned long int num, int recursive, char format
 		, char *buffer, int *buff_ind, int *count, int space)
 {
 	char *str, *null_str = "(null)";
@@ -136,7 +137,7 @@ int print_str(va_list args, unsigned int num, int recursive, char format
  * Return: -1 if error otherwise 0
  */
 
-int print_char(va_list args, unsigned int num, int recursive, char format
+int print_char(va_list args, unsigned long int num, int recursive, char format
 		, char *buffer, int *buff_ind, int *count, int space)
 {
 	int c;
