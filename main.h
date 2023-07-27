@@ -21,6 +21,7 @@ typedef struct f_list_s
 } f_list;
 
 int _strlen(char *s);
+char rot13(char ch);
 int print_str(va_list args, unsigned long int num, int recursive
 		, char format, char *buffer, int *buff_ind, int *count, int space);
 int print_reverse(va_list args, unsigned long int num, int recursive

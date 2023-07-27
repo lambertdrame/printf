@@ -37,3 +37,20 @@ int print_reverse(va_list args, unsigned long int num, int recursive
 	}
 	return (0);
 }
+
+/**
+ * rot13 -return rot13 of a character
+ * @ch: character to get rot13 for
+ *
+ * Return: rot13 of the character
+ */
+
+char rot13(char ch)
+{
+	if ('a' <= ch && ch <= 'z')
+		return (((ch - 'a' + 13) % 26) + 'a');
+	else if ('A' <= ch && ch <= 'Z')
+		return (((ch - 'A' + 13) % 26) + 'A');
+	else
+		return (ch);
+}
