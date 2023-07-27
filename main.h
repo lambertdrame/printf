@@ -23,6 +23,8 @@ typedef struct f_list_s
 int _strlen(char *s);
 int print_str(va_list args, unsigned long int num, int recursive
 		, char format, char *buffer, int *buff_ind, int *count, int space);
+int print_reverse(va_list args, unsigned long int num, int recursive
+		, char format, char *buffer, int *buff_ind, int *count, int space);
 int print_char(va_list args, unsigned long int num, int recursive
 		, char format, char *buffer, int *buff_ind, int *count, int space);
 int print_percent(va_list args, unsigned long int num, int recursive

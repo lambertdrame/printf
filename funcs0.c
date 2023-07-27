@@ -50,7 +50,7 @@ int format_selector(va_list args, char *buffer
 		{'i', print_int}, {'d', print_int}, {'b', print_d2boxX},
 		{'u', print_int}, {'o', print_d2boxX}, {'x', print_d2boxX},
 		{'X', print_d2boxX}, {'S', print_str}, {'p', print_pointer}
-		, {'\0', print_end}
+		, {'r', print_reverse}, {'\0', print_end}
 	};
 	for (i = 0; func_list[i].fc != '\0'; i++)
 	{
